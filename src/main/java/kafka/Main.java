@@ -1,40 +1,24 @@
 package kafka;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
+import org.apache.pulsar.shade.org.apache.commons.lang3.RandomUtils;
 
 import javax.jms.*;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
 
-        startThread(new HelloWorldProducer(), false);
-        startThread(new HelloWorldProducer(), false);
-        startThread(new HelloWorldConsumer(), false);
-        Thread.sleep(1000);
-        startThread(new HelloWorldConsumer(), false);
-        startThread(new HelloWorldProducer(), false);
-        startThread(new HelloWorldConsumer(), false);
-        startThread(new HelloWorldProducer(), false);
-        Thread.sleep(1000);
-        startThread(new HelloWorldConsumer(), false);
-        startThread(new HelloWorldProducer(), false);
-        startThread(new HelloWorldConsumer(), false);
-        startThread(new HelloWorldConsumer(), false);
-        startThread(new HelloWorldProducer(), false);
-        startThread(new HelloWorldProducer(), false);
-        Thread.sleep(1000);
-        startThread(new HelloWorldProducer(), false);
-        startThread(new HelloWorldConsumer(), false);
-        startThread(new HelloWorldConsumer(), false);
-        startThread(new HelloWorldProducer(), false);
-        startThread(new HelloWorldConsumer(), false);
-        startThread(new HelloWorldProducer(), false);
-        startThread(new HelloWorldConsumer(), false);
-        startThread(new HelloWorldProducer(), false);
-        startThread(new HelloWorldConsumer(), false);
-        startThread(new HelloWorldConsumer(), false);
-        startThread(new HelloWorldProducer(), false);
+        for (int i = 0; i < 25; i++) {
+            int randomBoolean = RandomUtils.nextInt(0, 1);
+            if (randomBoolean == 0) {
+                startThread(new HelloWorldProducer(), false);
+            } else {
+                startThread(new HelloWorldConsumer(), false);
+            }
+            if (i % 4 == 0) Thread.sleep(1000);
+        }
     }
+
     public static void startThread(Runnable runnable, boolean daemon) {
         Thread brokerThread = new Thread(runnable);
         brokerThread.setDaemon(daemon);
@@ -59,13 +43,12 @@ public class Main {
                 String text = "Hello world From Thread: " + Thread.currentThread().getName() + " : " + this.hashCode();
                 TextMessage message = session.createTextMessage(text);
 
-                System.out.println("Sent message: "+ message.hashCode() + " : " + Thread.currentThread().getName());
+                System.out.println("Sent message: " + message.hashCode() + " : " + Thread.currentThread().getName());
                 producer.send(message);
 
                 session.close();
                 connection.close();
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 System.out.println("Caught: " + e);
                 e.printStackTrace();
             }
