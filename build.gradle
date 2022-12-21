@@ -2,7 +2,6 @@ plugins {
     id 'java'
 }
 
-group 'org.test.events'
 version '1.0'
 
 repositories {
@@ -14,8 +13,11 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
     implementation 'org.apache.activemq:activemq-all:5.17.0'
     implementation 'com.hazelcast.jet:hazelcast-jet:4.5.4'
-    implementation 'com.hazelcast.jet-contrib:pulsar:0.1'
-    implementation 'org.apache.pulsar:pulsar-client:2.5.0'
+    implementation 'org.apache.pulsar:pulsar-client:2.9.3'
+    implementation 'com.hazelcast.jet.contrib:pulsar:0.1'
+    implementation 'org.apache.logging.log4j:log4j-api:2.19.0'
+    implementation 'org.apache.logging.log4j:log4j-core:2.19.0'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.1'
 }
 
 test {

@@ -14,7 +14,7 @@ public class MessagePublisher {
         PulsarClient client = PulsarClient.builder()
                 .serviceUrl("pulsar://localhost:6650")
                 .build();
-        ;
+
         Producer<Event> producer = client
                 .newProducer(Schema.JSON(Event.class))
                 .topic(topicName)
